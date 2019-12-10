@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="name="viewpoint" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scaleable=no">
+    <title>Øse Chatroom</title>
+    <link rel="icon" href="clientlogo.png">
+
+    <style>
+      body{
+        overflow: hidden;
+        background-color: black;
+        margin: 0 auto;
+        max-width: 100%;
+        padding: 5px 5px;
+      }
+      #div{
+        overflow: hidden;
+      }
+      #messages{
+        overflow: hidden;
+        background-color: rgb(129, 0, 0);
+        border: 2px solid yellow;
+        border-radius: 10px;
+        padding: 90px;
+        width: 1350px;
+        height: 650px;
+        float: left;
+      }
+      #features{
+        overflow: hidden;
+        background-color: rgb(129, 0, 0);
+        border: 2px solid yellow;
+        border-radius: 10px;
+        padding: 90px;
+        width: 187px;
+        height: 650px;
+        float: right;
+      }
+      .container3{
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="div" style="width: 100%; overflow: hidden;">
+      <div id="messages"></div>
+      <div id="features"></div>
+    </div>
+    <form action="">
+      <input id="box" autocomplete="off" /><button>Send</button>
+    </form>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+            $(function () {
+              var socket = io();
+              $('form').submit(function(e){
+                e.preventDefault(); // prevents page reloading
+                socket.emit('chat message', $('#box').val());
+                $('#box').val('');
+                return false;
+              });
+              socket.on('chat message', function(msg){
+                $('#messages').append($('<li>').text(msg));
+              });
+            });
+    </script>
+  </body>
+</html>
